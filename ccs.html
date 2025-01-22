@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cybersecurity Awareness Website</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      color: #333;
+    }
+    header {
+      background-color: #0077cc;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    nav {
+      background: #005fa3;
+      color: white;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      padding: 10px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .container {
+      padding: 20px;
+    }
+    footer {
+      background: #333;
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Cybersecurity Awareness</h1>
+    <p>Learn how to stay safe online</p>
+  </header>
+
+  <nav>
+    <a href="#about">About Cybercrime</a>
+    <a href="#quiz">Quiz</a>
+    <a href="#game">Game</a>
+  </nav>
+
+  <section id="about" class="container">
+    <h2>About Cybercrime</h2>
+    <p>Cybercrime refers to illegal activities carried out using computers or the internet. It can range from stealing sensitive data to spreading malware or launching cyberattacks.</p>
+
+    <h3>Common Types of Cybercrime</h3>
+    <ul>
+      <li><strong>Phishing:</strong> Attempts to steal sensitive information by impersonating legitimate entities.</li>
+      <li><strong>Hacking:</strong> Unauthorized access to systems or networks.</li>
+      <li><strong>Identity Theft:</strong> Stealing personal information to commit fraud.</li>
+      <li><strong>Ransomware:</strong> Malicious software that locks your data until a ransom is paid.</li>
+    </ul>
+
+    <h3>How to Protect Yourself</h3>
+    <ol>
+      <li>Use strong and unique passwords.</li>
+      <li>Enable two-factor authentication (2FA).</li>
+      <li>Be cautious of suspicious emails or messages.</li>
+      <li>Keep your software and antivirus updated.</li>
+      <li>Regularly back up your data.</li>
+    </ol>
+  </section>
+
+  <section id="quiz" class="container">
+    <h2>Cybersecurity Quiz</h2>
+    <div class="quiz-container">
+      <div id="quiz">
+        <p class="question" id="question">Loading question...</p>
+        <div class="options" id="options"></div>
+      </div>
+      <p class="score" id="score">Score: 0</p>
+    </div>
+
+    <script>
+      const questions = [
+        {
+          question: "What is phishing?",
+          options: [
+            "A type of fishing in the ocean",
+            "An attempt to steal information by impersonation",
+            "A computer programming language",
+            "None of the above"
+          ],
+          correct: 1
+        },
+        {
+          question: "Which of these is an example of a strong password?",
+          options: [
+            "password123",
+            "qwerty",
+            "Cyb3r$3cur3!",
+            "12345678"
+          ],
+          correct: 2
+        },
+        {
+          question: "What does 2FA stand for?",
+          options: [
+            "Two-Factor Authentication",
+            "Two-Factor Authorization",
+            "Two-Factor Access",
+            "Two-Factor Account"
+          ],
+          correct: 0
+        },
+        {
+          question: "What should you do if you receive a suspicious email?",
+          options: [
+            "Click on the link to check it out",
+            "Reply with your personal information",
+            "Delete it immediately",
+            "Forward it to your friends"
+          ],
+          correct: 2
+        }
+      ];
+
+      let currentQuestion = 0;
+      let score = 0;
+
+      function loadQuestion() {
+        const questionElement = document.getElementById('question');
+        const optionsElement = document.getElementById('options');
+        const question = questions[currentQuestion];
+
+        questionElement.textContent = question.question;
+        optionsElement.innerHTML = '';
+
+        question.options.forEach((option, index) => {
+          const button = document.createElement('button');
+          button.textContent = option;
+          button.onclick = () => checkAnswer(index);
+          optionsElement.appendChild(button);
+        });
+      }
+
+      function checkAnswer(selected) {
+        if (selected === questions[currentQuestion].correct) {
+          score += 10;
+        }
+
+        currentQuestion++;
+
+        if (currentQuestion < questions.length) {
+          loadQuestion();
+        } else {
+          endQuiz();
+        }
+
+        document.getElementById('score').textContent = `Score: ${score}`;
+      }
+
+      function endQuiz() {
+        document.getElementById('quiz').innerHTML = `<p>Quiz Complete! Your final score is ${score}.</p>`;
+      }
+
+      loadQuestion();
+    </script>
+  </section>
+
+  <section id="game" class="container">
+    <h2>Cybersecurity Game</h2>
+    <div class="game-container">
+      <h3>Spot the Cyber Threat</h3>
+      <p id="description">Identify whether the scenario below is safe or a cyber threat.</p>
+      <p id="scenario">Loading...</p>
+      <button onclick="chooseOption('safe')">Safe</button>
+      <button onclick="chooseOption('threat')">Threat</button>
+      <p id="feedback" style="margin-top: 20px;"></p>
+      <p id="game-score">Score: 0</p>
+    </div>
+
+    <script>
+      const scenarios = [
+        { text: "You receive an email from your bank asking for your login credentials.", answer: "threat" },
+        { text: "Your friend shares a link to a funny video on a reputable site.", answer: "safe" },
+        { text: "You get a pop-up offering free prizes if you click a link.", answer: "threat" },
+        { text: "A website uses HTTPS in its URL.", answer: "safe" },
+        { text: "You download an attachment from an unknown sender.", answer: "threat" }
+      ];
+
+      let currentScenario = 0;
+      let gameScore = 0;
+
+      function loadScenario() {
+        const scenarioElement = document.getElementById('scenario');
+        scenarioElement.textContent = scenarios[currentScenario].text;
+      }
+
+      function chooseOption(choice) {
+        const feedbackElement = document.getElementById('feedback');
+        if (choice === scenarios[currentScenario].answer) {
+          gameScore += 10;
+          feedbackElement.textContent = "Correct! Well done.";
+          feedbackElement.style.color = "green";
+        } else {
+          feedbackElement.textContent = "Incorrect. Stay cautious!";
+          feedbackElement.style.color = "red";
+        }
+
+        document.getElementById('game-score').textContent = `Score: ${gameScore}`;
+
+        currentScenario++;
+        if (currentScenario < scenarios.length) {
+          setTimeout(() => {
+            feedbackElement.textContent = "";
+            loadScenario();
+          }, 1000);
+        } else {
+          endGame();
+        }
+      }
+
+      function endGame() {
+        document.getElementById('description').textContent = "Game Over!";
+        document.getElementById('scenario').textContent = `Your final score is ${gameScore}.`;
+        document.querySelectorAll('button').forEach(button => button.disabled = true);
+      }
+
+      loadScenario();
+    </script>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Cybersecurity Awareness. All rights reserved.</p>
+  </footer>
+</body>
+</html>
